@@ -3,230 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>x6WebGames</title>
-    <style>
-        /* Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-        body {
-            background-color: #f7f7f7;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(90deg, #031D8C, #0400ff);
-            padding: 20px;
-            text-align: center;
-            color: white;
-            position: relative;
-        }
-
-        header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        nav {
-            margin-top: 15px;
-        }
-
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #ffbd06;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: white;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: url('https://source.unsplash.com/1600x600/?gaming') no-repeat center center/cover;
-            height: 80vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero h2 {
-            font-size: 3rem;
-            max-width: 80%;
-        }
-
-        /* Games Section */
-        .games-section {
-            background-color: #fff;
-            padding: 50px;
-            text-align: center;
-        }
-
-        .games-section h2 {
-            font-size: 2.5rem;
-            color: #031D8C;
-            margin-bottom: 50px;
-        }
-
-        .games-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-
-        .game {
-            width: 300px;
-            margin: 15px;
-            background-color: #f1f1f1;
-            border-radius: 12px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .game:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .game img {
-            width: 100%;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-        }
-
-        .game h3 {
-            padding: 20px;
-            font-size: 1.5rem;
-        }
-
-        .game p {
-            padding: 0 20px 20px;
-            color: #555;
-        }
-
-        /* About Section */
-        #about {
-            background-color: #f7f7f7;
-            padding: 50px;
-            text-align: center;
-        }
-
-        #about h2 {
-            font-size: 2.5rem;
-            color: #031D8C;
-            margin-bottom: 20px;
-        }
-
-        #about p {
-            max-width: 800px;
-            margin: 0 auto;
-            color: #666;
-            line-height: 1.8;
-        }
-
-        /* Contact Section */
-        #contact {
-            background-color: #031D8C;
-            color: white;
-            padding: 50px;
-            text-align: center;
-        }
-
-        #contact h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        #contact p {
-            font-size: 1.1rem;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #0400ff;
-            padding: 20px;
-            text-align: center;
-            color: #ffbd06;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            .games-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .game {
-                width: 80%;
-            }
-            .hero h2 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+    <title>x6 Web Games (x6WG)</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Quicksand:wght@400;700&family=Raleway:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <header>
-        <h1>GameWorld</h1>
-        <nav>
-            <a href="#games">Games</a>
-        </nav>
+        <div class="container">
+            <h1>x6 WebGames</h1>
+            <p>Fun browser games for all!</p>
+        </div>
     </header>
-
-    <section class="hero">
-        <h2>Explore our collection here.</h2>
-    </section>
-
-    <section id="games" class="games-section">
-        <h2>Our Games</h2>
-        <div class="games-container">
-            <div class="game">
-                <img src="https://source.unsplash.com/400x300/?game1" alt="Game One">
-                <h3>Game One</h3>
-                <p>Action-packed and fun!</p>
+    <div class="container">
+        <div class="game-grid">
+            <div class="game-card">
+                <div class="game-card-content">
+                    <h2>Coming Soon</h2>
+                    <p>Game 1 will be added soon!</p>
+                    <div class="game-card-overlay">+</div>
+                </div>
             </div>
-            <div class="game">
-                <img src="https://source.unsplash.com/400x300/?game2" alt="Game Two">
-                <h3>Game Two</h3>
-                <p>Strategy and adventure!</p>
+            <div class="game-card">
+                <div class="game-card-content">
+                    <h2>Coming Soon</h2>
+                    <p>Game 2 will be added soon!</p>
+                    <div class="game-card-overlay">+</div>
+                </div>
             </div>
-            <div class="game">
-                <img src="https://source.unsplash.com/400x300/?game3" alt="Painting.IO">
-                <h3>Painting.IO</h3>
-                <p>Paint your world as fast as you can!</p>
-                <button><a href="paintingio.html">Play Now</a></button>
+            <div class="game-card">
+                <div class="game-card-content">
+                    <h2>Coming Soon</h2>
+                    <p>Game 3 will be added soon!</p>
+                    <div class="game-card-overlay">+</div>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-card-content">
+                    <h2>Coming Soon</h2>
+                    <p>Game 4 will be added soon!</p>
+                    <div class="game-card-overlay">+</div>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-card-content">
+                    <h2>Coming Soon</h2>
+                    <p>Game 5 will be added soon!</p>
+                    <div class="game-card-overlay">+</div>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-card-content">
+                    <h2>Coming Soon</h2>
+                    <p>Game 6 will be added soon!</p>
+                    <div class="game-card-overlay">+</div>
+                </div>
             </div>
         </div>
-    </section>
-
-    <section id="about">
-        <h2>About Us</h2>
-        <p>We are passionate about creating fun and engaging games for players around the world. Our mission is to bring creative gaming experiences to life, offering a variety of genres for every type of gamer!</p>
-    </section>
-
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Email: info@gamesite.com</p>
-    </section>
-
+    </div>
     <footer>
-        <p>&copy;2024 xxavv6AMES + GameWorld. All rights reserved.</p>
+        <p>&copy;2024 xxavv6AMES. All rights reserved.</p>
     </footer>
-
 </body>
 </html>
