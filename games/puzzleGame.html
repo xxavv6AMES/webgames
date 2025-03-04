@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Puzzle - x6WG</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 400px;
+            margin: 20px auto;
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        }
+        .puzzle-tile {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .puzzle-tile:hover:not(.empty) {
+            transform: scale(0.95);
+            box-shadow: 0 0 15px rgba(247, 37, 133, 0.3);
+        }
+        .empty {
+            background: var(--background);
+            border: 2px dashed rgba(255,255,255,0.2);
+            cursor: default;
+        }
+        .puzzle-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .moves-counter {
+            font-size: 1.2em;
+            margin: 20px;
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .instructions {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+            border: 2px solid var(--accent-purple);
+        }
+
+        .instructions h2 {
+            color: var(--accent-pink);
+            margin-bottom: 15px;
+        }
+
+        .instructions-list {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+        }
+
+        .instructions-list li {
+            margin: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .instructions-list li i {
+            position: absolute;
+            left: 0;
+            top: 3px;
+            color: var(--accent-pink);
+        }
+
+        .help-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-purple);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .help-button:hover {
+            background: var(--accent-pink);
+            transform: scale(1.1);
+        }
+
+        #instructionsPanel {
+            display: none;
+        }
+
+        #instructionsPanel.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="ri-puzzle-line"></i> Sliding Puzzle</h1>
+            <p><i class="ri-ghost-line"></i> Slide tiles to solve the puzzle!</p>
+        </div>
+    </header>
+    <div class="container">
+        <div class="game-container">
+            <button class="help-button" onclick="toggleInstructions()">
+                <i class="ri-question-line"></i>
+            </button>
+            
+            <div id="instructionsPanel" class="instructions">
+                <h2><i class="ri-book-open-line"></i> How to Play</h2>
+                <ul class="instructions-list">
+                    <li><i class="ri-game-line"></i> The goal is to arrange the numbers from 1 to 8 in order</li>
+                    <li><i class="ri-cursor-line"></i> Click any tile adjacent to the empty space to move it</li>
+                    <li><i class="ri-arrow-up-line"></i> Create the sequence: 1-2-3 in the first row</li>
+                    <li><i class="ri-arrow-down-line"></i> Then 4-5-6 in the second row</li>
+                    <li><i class="ri-arrow-down-line"></i> Finally 7-8-empty in the last row</li>
+                    <li><i class="ri-refresh-line"></i> Click 'New Game' to shuffle and start over</li>
+                </ul>
+            </div>
+
+            <div class="moves-counter"><i class="ri-footprint-line"></i> Moves: <span id="moves">0</span></div>
+            <div class="puzzle-grid" id="puzzle"></div>
+            <div class="puzzle-controls">
+                <button class="nav-button" onclick="shufflePuzzle()">
+                    <i class="ri-shuffle-line"></i> New Game
+                </button>
+                <a href="../index.html" class="nav-button">
+                    <i class="ri-arrow-left-line"></i> Back to Games
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const puzzle = document.getElementById('puzzle');
+        let tiles = Array.from({length: 9}, (_, i) => i);  // 0-8 numbers
+        let moves = 0;
+        let inProgress = false;
+
+        function updateMovesCounter() {
+            document.getElementById('moves').textContent = moves;
+        }
+
+        function createPuzzle() {
+            puzzle.innerHTML = '';
+            tiles.forEach((tile, index) => {
+                const tileElement = document.createElement('div');
+                tileElement.className = `puzzle-tile ${tile === 0 ? 'empty' : ''}`;
+                tileElement.textContent = tile || '';
+                tileElement.onclick = () => moveTile(index);
+                puzzle.appendChild(tileElement);
+            });
+        }
+
+        function moveTile(index) {
+            if (inProgress) return;
+            
+            const emptyIndex = tiles.indexOf(0);
+            const row = Math.floor(index / 3);
+            const emptyRow = Math.floor(emptyIndex / 3);
+            const col = index % 3;
+            const emptyCol = emptyIndex % 3;
+
+            // Check if tile is adjacent to empty space
+            if ((Math.abs(row - emptyRow) === 1 && col === emptyCol) ||
+                (Math.abs(col - emptyCol) === 1 && row === emptyRow)) {
+                
+                // Swap tiles
+                [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+                moves++;
+                updateMovesCounter();
+                createPuzzle();
+                checkWin();
+            }
+        }
+
+        function shufflePuzzle() {
+            moves = 0;
+            updateMovesCounter();
+            inProgress = true;
+
+            // Generate a solvable puzzle
+            do {
+                tiles = Array.from({length: 9}, (_, i) => i);
+                for (let i = tiles.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+                }
+            } while (!isSolvable(tiles) || isComplete(tiles));
+
+            createPuzzle();
+            inProgress = false;
+        }
+
+        function isSolvable(arr) {
+            let inversions = 0;
+            const values = arr.filter(x => x !== 0);
+            
+            for (let i = 0; i < values.length - 1; i++) {
+                for (let j = i + 1; j < values.length; j++) {
+                    if (values[i] > values[j]) inversions++;
+                }
+            }
+            
+            return inversions % 2 === 0;
+        }
+
+        function isComplete(arr) {
+            return arr.every((tile, index) => tile === (index + 1) % 9);
+        }
+
+        function checkWin() {
+            if (tiles.slice(1).every((tile, index) => tile === index + 1) && tiles[0] === 0) {
+                setTimeout(() => {
+                    alert(`Congratulations! You solved the puzzle in ${moves} moves!`);
+                    shufflePuzzle();
+                }, 300);
+            }
+        }
+
+        shufflePuzzle();
+
+        // Add this new function for instructions toggle
+        function toggleInstructions() {
+            const panel = document.getElementById('instructionsPanel');
+            panel.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

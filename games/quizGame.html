@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game - x6WG</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .question {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .option {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-purple));
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            color: white;
+            text-align: left;
+            font-size: 1.1em;
+        }
+        .option:hover {
+            transform: translateX(10px);
+        }
+        .score {
+            font-size: 1.5em;
+            margin: 20px;
+            color: var(--accent-pink);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="ri-question-line"></i> Quiz Game</h1>
+            <p><i class="ri-brain-line"></i> Test your knowledge!</p>
+        </div>
+    </header>
+    <div class="container">
+        <div class="game-container">
+            <div class="quiz-container">
+                <div class="score">Score: <span id="score">0</span></div>
+                <div id="question" class="question"></div>
+            </div>
+            <a href="../index.html" class="nav-button"><i class="ri-arrow-left-line"></i> Back to Games</a>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["London", "Berlin", "Paris", "Madrid"],
+                correct: 2
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Venus", "Mars", "Jupiter", "Saturn"],
+                correct: 1
+            },
+            {
+                question: "What is 2 + 2?",
+                options: ["3", "4", "5", "6"],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question').innerHTML = `
+                <h2>${q.question}</h2>
+                <div class="options">
+                    ${q.options.map((option, index) => `
+                        <button class="option" onclick="checkAnswer(${index})">
+                            ${option}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function checkAnswer(answer) {
+            if (answer === questions[currentQuestion].correct) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+            }
+            
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                document.getElementById('question').innerHTML = `
+                    <h2>Quiz Complete!</h2>
+                    <p>Final Score: ${score}</p>
+                    <button class="nav-button" onclick="resetQuiz()">Play Again</button>
+                `;
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').textContent = score;
+            showQuestion();
+        }
+
+        showQuestion();
+    </script>
+</body>
+</html>
